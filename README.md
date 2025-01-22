@@ -1,7 +1,12 @@
 # 🧠 Exploring Mental Health
 
 ## 📋 Overview
-This project was part of the Kaggle Playground Series (S4E11) competition. The goal was to predict the presence of depression in individuals using a dataset with mixed numerical and categorical features. The analysis involved data preprocessing, feature engineering, and the implementation of various machine learning models.
+This project was part of the Kaggle Playground Series (S4E11) competition. The objective was to predict depression among individuals using a dataset that includes both numerical and categorical features. The analysis involved:
+
+- **Data Preprocessing:** Handling outliers, missing values, and normalizing categorical data.
+- **Feature Engineering:** Exploring numerical and categorical variables to maximize model performance.
+- **Model Training:** Implementing machine learning models with techniques to address class imbalance.
+- **Visualization:** Detailed exploration of distributions, correlations, and outliers for actionable insights.
 
 ---
 
@@ -12,6 +17,7 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The g
   - **Accuracy:** 94.46%
   - **F1-Score:** 0.8454
   - **ROC-AUC:** 0.9802
+- **Class Imbalance Handling:** Improved the recall for the minority class without sacrificing overall performance.
 
 ---
 
@@ -20,34 +26,85 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The g
 
 ### Data Preprocessing
 - **Outlier Removal:**
-  - Removed outliers from the Age column (restricted range: 0-100).
-- **Normalization:**
-  - Converted categorical features to lowercase and removed whitespace.
-- **Feature Splitting:**
-  - Prepared separate datasets for features (X) and target variable (y).
+  - Removed outliers in the `Age` column based on a valid range of [0, 100].
+
+  ```python
+  train_data = train_data[(train_data['Age'] >= 0) & (train_data['Age'] <= 100)]
+  ```
+
+- **Normalization of Categorical Data:**
+  - Converted all categorical values to lowercase and stripped whitespace.
+
+  ```python
+  train_data['Profession'] = train_data['Profession'].str.lower().str.strip()
+  ```
+
+- **Splitting Features and Labels:**
+  - Prepared `X_train`, `y_train`, and `X_test` datasets.
+
+  ```python
+  X_train = train_data.drop(columns=['Depression'])
+  y_train = train_data['Depression']
+  ```
 
 ### Feature Engineering
-- **Numerical Features:**
-  - Analyzed distributions and correlations.
-- **Categorical Features:**
-  - Encoded variables for model compatibility.
+- **Analyzed Numerical Features:**
+  - Explored distributions using histograms and boxplots.
+- **Encoded Categorical Features:**
+  - Applied one-hot encoding where necessary.
+
+### Addressing Class Imbalance
+- Calculated class weights based on the distribution of the target variable:
+
+  ```python
+  class_weights = compute_class_weight(
+      class_weight='balanced',
+      classes=np.array([0, 1]),
+      y=y_train
+  )
+  ```
+
+  - Implemented class weights for models such as Logistic Regression and Random Forest.
 
 ### Models Used
-1. **Logistic Regression:** Balanced class weights to handle class imbalance.
+
+1. **Logistic Regression:**
+   - Balanced class weights to handle imbalance.
+
+   ```python
+   logistic_model = LogisticRegression(class_weight=class_weight_dict, random_state=42)
+   ```
+
 2. **Random Forest Classifier:**
-   - Applied class weights for balanced training.
+   - Applied class weights during training.
+
+   ```python
+   rf_model = RandomForestClassifier(class_weight=class_weight_dict, random_state=42)
+   ```
+
 3. **XGBoost Classifier:**
-   - Tuned `scale_pos_weight` to address class imbalance.
+   - Used `scale_pos_weight` to address imbalance effectively.
+
+   ```python
+   scale_pos_weight = class_weight_dict[1] / class_weight_dict[0]
+   xgb_model = XGBClassifier(scale_pos_weight=scale_pos_weight, random_state=42)
+   ```
+
 4. **LightGBM Classifier:**
-   - Automatically handled class weights with `balanced` parameter.
+   - Automatically handled class imbalance using the `balanced` parameter.
 
-### Data Splitting
-- Used **Stratified K-Fold Cross-Validation** (5 splits) to ensure robust model evaluation.
+   ```python
+   lgbm_model = LGBMClassifier(class_weight='balanced', random_state=42)
+   ```
 
-### Handling Class Imbalance
-- Calculated class weights for the Depression variable to balance the dataset during training.
+### Cross-Validation
+- Used **Stratified K-Fold Cross-Validation** (5 splits) for robust evaluation:
 
----
+  ```python
+  cv_scores = cross_val_score(xgb_model, X_train, y_train, cv=5, scoring='roc_auc')
+  print(f"Average ROC-AUC: {cv_scores.mean():.4f}")
+  ```
+
 
 ## 📊 Key Visualizations
 
