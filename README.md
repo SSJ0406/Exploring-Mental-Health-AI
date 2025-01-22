@@ -3,10 +3,11 @@
 ## 📋 Overview
 This project was part of the Kaggle Playground Series (S4E11) competition. The objective was to predict depression among individuals using a dataset that includes both numerical and categorical features. The analysis involved:
 
-- **Data Preprocessing:** Handling outliers, missing values, and normalizing categorical data.
-- **Feature Engineering:** Exploring numerical and categorical variables to maximize model performance.
-- **Model Training:** Implementing machine learning models with techniques to address class imbalance.
-- **Visualization:** Detailed exploration of distributions, correlations, and outliers for actionable insights.
+- **Data Exploration:** Insights into missing values, distribution analysis, and correlation heatmaps.
+- **Feature Engineering:** Creation of normalized features and handling categorical variables.
+- **Model Training:** Training three models with distinct strategies for handling missing values in the `sii` column.
+- **Visualization:** In-depth data visualizations for understanding data patterns and relationships.
+- **Technologies Used:** Python, Pandas, NumPy, Scikit-learn, XGBoost, LightGBM, Matplotlib, Seaborn.
 
 ---
 
