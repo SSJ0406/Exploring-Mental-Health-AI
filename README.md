@@ -15,15 +15,37 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The g
 
 ---
 
-## 🗂️ Repository Structure
 
-```plaintext
-├── train.csv                      # Training dataset
-├── test.csv                       # Test dataset
-├── sample_submission.csv          # Format for submission
-├── Exploring Mental Data Health.ipynb # Jupyter notebook containing the analysis
-├── README.md                      # Project documentation
-```
+## 🛠️ What Was Done
+
+### Data Preprocessing
+- **Outlier Removal:**
+  - Removed outliers from the Age column (restricted range: 0-100).
+- **Normalization:**
+  - Converted categorical features to lowercase and removed whitespace.
+- **Feature Splitting:**
+  - Prepared separate datasets for features (X) and target variable (y).
+
+### Feature Engineering
+- **Numerical Features:**
+  - Analyzed distributions and correlations.
+- **Categorical Features:**
+  - Encoded variables for model compatibility.
+
+### Models Used
+1. **Logistic Regression:** Balanced class weights to handle class imbalance.
+2. **Random Forest Classifier:**
+   - Applied class weights for balanced training.
+3. **XGBoost Classifier:**
+   - Tuned `scale_pos_weight` to address class imbalance.
+4. **LightGBM Classifier:**
+   - Automatically handled class weights with `balanced` parameter.
+
+### Data Splitting
+- Used **Stratified K-Fold Cross-Validation** (5 splits) to ensure robust model evaluation.
+
+### Handling Class Imbalance
+- Calculated class weights for the Depression variable to balance the dataset during training.
 
 ---
 
@@ -67,36 +89,15 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The g
 
 ---
 
-## 🛠️ What Was Done
+## 🗂️ Repository Structure
 
-### Data Preprocessing
-- **Outlier Removal:**
-  - Removed outliers from the Age column (restricted range: 0-100).
-- **Normalization:**
-  - Converted categorical features to lowercase and removed whitespace.
-- **Feature Splitting:**
-  - Prepared separate datasets for features (X) and target variable (y).
-
-### Feature Engineering
-- **Numerical Features:**
-  - Analyzed distributions and correlations.
-- **Categorical Features:**
-  - Encoded variables for model compatibility.
-
-### Models Used
-1. **Logistic Regression:** Balanced class weights to handle class imbalance.
-2. **Random Forest Classifier:**
-   - Applied class weights for balanced training.
-3. **XGBoost Classifier:**
-   - Tuned `scale_pos_weight` to address class imbalance.
-4. **LightGBM Classifier:**
-   - Automatically handled class weights with `balanced` parameter.
-
-### Data Splitting
-- Used **Stratified K-Fold Cross-Validation** (5 splits) to ensure robust model evaluation.
-
-### Handling Class Imbalance
-- Calculated class weights for the Depression variable to balance the dataset during training.
+```plaintext
+├── train.csv                      # Training dataset
+├── test.csv                       # Test dataset
+├── sample_submission.csv          # Format for submission
+├── Exploring Mental Data Health.ipynb # Jupyter notebook containing the analysis
+├── README.md                      # Project documentation
+```
 
 ---
 
