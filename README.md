@@ -1,13 +1,20 @@
 # 🧠 Exploring Mental Health
 
 ## 📋 Overview
-This project was part of the Kaggle Playground Series (S4E11) competition. The objective was to predict depression among individuals using a dataset that includes both numerical and categorical features. The analysis involved:
+This project was part of the Kaggle Playground Series (S4E11) competition. The objective was to predict depression among individuals using a dataset that includes both numerical and categorical features. The dataset posed several challenges:
 
-- **Data Exploration:** Insights into missing values, distribution analysis, and correlation heatmaps.
-- **Feature Engineering:** Creation of normalized features and handling categorical variables.
-- **Model Training:** Training three models with distinct strategies for handling missing values in the `sii` column.
-- **Visualization:** In-depth data visualizations for understanding data patterns and relationships.
-- **Technologies Used:** Python, Pandas, NumPy, Scikit-learn, XGBoost, LightGBM, Matplotlib, Seaborn.
+- **Incomplete Data**: Several features had substantial missing values (e.g., Academic Pressure, Study Satisfaction, CGPA).
+- **Class Imbalance**: The dataset was heavily skewed towards non-depressed individuals (81.8% with no depression), requiring techniques like class weighting.
+- **Mixed Data Formats**: The dataset contained both classification-based (.csv) and potentially time-series data (e.g., Work/Study Hours, Financial Stress).
+- **Data Cleaning Issues**: The dataset required standardization of categorical values, handling of outliers, and dealing with inconsistent labeling.
+
+The analysis involved:
+
+- **Data Exploration**: Identification of missing values, distribution analysis, and correlation heatmaps.
+- **Data Preparation**: Normalization of features and handling of categorical variables.
+- **Model Training**: Comparison of different models with strategies for handling missing values and class imbalance.
+- **Visualization**: In-depth data visualizations to uncover patterns.
+- **Technologies Used**: Python, Pandas, NumPy, Scikit-learn, XGBoost, LightGBM, Matplotlib, Seaborn.
 
 ---
 
@@ -16,25 +23,23 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
 - **Average ROC-AUC from 5-Fold Cross-Validation:** 0.9748
 - **Training Metrics:**
   - **Accuracy:** 94.46%
-  - **F1-Score:** 0.8454
   - **ROC-AUC:** 0.9802
 - **Class Imbalance Handling:** Improved the recall for the minority class without sacrificing overall performance.
 
 ---
 
-
 ## 🛠️ What Was Done
 
 ### Data Preprocessing
 - **Outlier Removal:**
-  - Removed outliers in the `Age` column based on a valid range of [0, 100].
-
+  - Removed outliers in the `Age` column based on a valid range of [18, 60].
+  
   ```python
-  train_data = train_data[(train_data['Age'] >= 0) & (train_data['Age'] <= 100)]
+  train_data = train_data[(train_data['Age'] >= 18) & (train_data['Age'] <= 60)]
   ```
 
 - **Normalization of Categorical Data:**
-  - Converted all categorical values to lowercase and stripped whitespace.
+  - Standardized categorical values by converting them to lowercase and stripping whitespace.
 
   ```python
   train_data['Profession'] = train_data['Profession'].str.lower().str.strip()
@@ -48,15 +53,9 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
   y_train = train_data['Depression']
   ```
 
-### Feature Engineering
-- **Analyzed Numerical Features:**
-  - Explored distributions using histograms and boxplots.
-- **Encoded Categorical Features:**
-  - Applied one-hot encoding where necessary.
-
 ### Addressing Class Imbalance
-- Calculated class weights based on the distribution of the target variable:
-
+- **Computed Class Weights:**
+  
   ```python
   class_weights = compute_class_weight(
       class_weight='balanced',
@@ -65,26 +64,26 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
   )
   ```
 
-  - Implemented class weights for models such as Logistic Regression and Random Forest.
+  - Applied these weights in models such as Logistic Regression and Random Forest.
 
 ### Models Used
 
 1. **Logistic Regression:**
-   - Balanced class weights to handle imbalance.
+   - Adjusted class weights to balance the dataset.
 
    ```python
    logistic_model = LogisticRegression(class_weight=class_weight_dict, random_state=42)
    ```
 
 2. **Random Forest Classifier:**
-   - Applied class weights during training.
+   - Incorporated class weighting during training.
 
    ```python
    rf_model = RandomForestClassifier(class_weight=class_weight_dict, random_state=42)
    ```
 
 3. **XGBoost Classifier:**
-   - Used `scale_pos_weight` to address imbalance effectively.
+   - Used `scale_pos_weight` to mitigate imbalance.
 
    ```python
    scale_pos_weight = class_weight_dict[1] / class_weight_dict[0]
@@ -92,20 +91,19 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
    ```
 
 4. **LightGBM Classifier:**
-   - Automatically handled class imbalance using the `balanced` parameter.
+   - Leveraged the built-in `balanced` class weight parameter.
 
    ```python
    lgbm_model = LGBMClassifier(class_weight='balanced', random_state=42)
    ```
 
 ### Cross-Validation
-- Used **Stratified K-Fold Cross-Validation** (5 splits) for robust evaluation:
+- Used **Stratified K-Fold Cross-Validation** (5 splits) for reliable performance assessment:
 
   ```python
   cv_scores = cross_val_score(xgb_model, X_train, y_train, cv=5, scoring='roc_auc')
   print(f"Average ROC-AUC: {cv_scores.mean():.4f}")
   ```
-
 
 ## 📊 Key Visualizations
 
@@ -139,12 +137,6 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
 ![image](https://github.com/user-attachments/assets/5bb6c909-1451-4f52-8c16-6e896e0a72e9)
 
 
-6. **Pairplots of Selected Features:**
-   - Examined pairwise relationships for feature interaction.
-  
-     ![image](https://github.com/user-attachments/assets/859b080c-dd2c-4463-a904-f31307f9c50f)
-
-
 ---
 
 ## 🗂️ Repository Structure
@@ -164,8 +156,8 @@ This project was part of the Kaggle Playground Series (S4E11) competition. The o
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/exploring-mental-health.git
-   cd exploring-mental-health
+   git clone https://github.com/SSJ0406/Exploring-Mental-Health-AI.git
+   cd Exploring-Mental-Health-AI
    ```
 
 2. Install required packages:
