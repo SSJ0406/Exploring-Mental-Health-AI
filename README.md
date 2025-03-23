@@ -22,8 +22,8 @@ The analysis involved:
 
 - **Average ROC-AUC from 5-Fold Cross-Validation:** 0.9748
 - **Training Metrics:**
-  - **Accuracy:** 94.46%
-  - **ROC-AUC:** 0.9802
+  - **Accuracy:** 94.44%
+  - **ROC-AUC:** 0.9800
 - **Class Imbalance Handling:** Improved the recall for the minority class without sacrificing overall performance.
 
 ---
@@ -145,7 +145,7 @@ The analysis involved:
 ├── train.csv                      # Training dataset
 ├── test.csv                       # Test dataset
 ├── sample_submission.csv          # Format for submission
-├── Exploring Mental Data Health AI.ipynb # Jupyter notebook containing the analysis
+├── Exploring Mental Data Health.ipynb # Jupyter notebook containing the analysis
 ├── README.md                      # Project documentation
 ```
 
