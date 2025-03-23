@@ -145,7 +145,7 @@ The analysis involved:
 ├── train.csv                      # Training dataset
 ├── test.csv                       # Test dataset
 ├── sample_submission.csv          # Format for submission
-├── Exploring Mental Data Health.ipynb # Jupyter notebook containing the analysis
+├── Exploring Mental Data Health AI.ipynb # Jupyter notebook containing the analysis
 ├── README.md                      # Project documentation
 ```
 
